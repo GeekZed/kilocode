@@ -12,6 +12,8 @@
 
 # Include the built extension
 !dist
+dist/**/*.map
+
 
 # Include the built webview
 !webview-ui/audio

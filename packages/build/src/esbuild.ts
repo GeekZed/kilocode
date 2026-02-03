@@ -151,7 +151,14 @@ export function copyWasms(srcDir: string, distDir: string): void {
 	}
 
 	// Dynamically read all WASM files from the directory instead of using a hardcoded list.
-	const wasmFiles = fs.readdirSync(languageWasmDir).filter((file) => file.endsWith(".wasm"))
+	// kilocode_change start
+	const excludedWasms = [
+		"tree-sitter-objc.wasm",
+		"tree-sitter-agda.wasm",
+		"tree-sitter-haskell.wasm",
+	]
+	const wasmFiles = fs.readdirSync(languageWasmDir).filter((file) => file.endsWith(".wasm") && !excludedWasms.includes(file))
+	// kilocode_change end
 
 	wasmFiles.forEach((filename) => {
 		fs.copyFileSync(path.join(languageWasmDir, filename), path.join(distDir, filename))
