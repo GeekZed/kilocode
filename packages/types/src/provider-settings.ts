@@ -303,8 +303,7 @@ const openAiSchema = baseProviderSettingsSchema.extend({
 	openAiStreamingEnabled: z.boolean().optional(),
 	openAiHostHeader: z.string().optional(), // Keep temporarily for backward compatibility during migration.
 	openAiHeaders: z.record(z.string(), z.string()).optional(),
-	openAiOmitToolChoice: z.boolean().optional(),
-	openAiDisableTools: z.boolean().optional(),
+	openAiDisableToolChoice: z.boolean().optional(),
 })
 
 // kilocode_change start

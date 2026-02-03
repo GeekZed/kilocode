@@ -170,22 +170,12 @@ export const OpenAICompatible = ({
 			</div>
 			<div>
 				<Checkbox
-					checked={apiConfiguration?.openAiOmitToolChoice ?? false}
-					onChange={handleInputChange("openAiOmitToolChoice", noTransform)}>
-					{t("settings:openAiOmitToolChoice")}
+					checked={apiConfiguration?.openAiDisableToolChoice ?? false}
+					onChange={handleInputChange("openAiDisableToolChoice", noTransform)}>
+					{t("settings:openAiDisableToolChoice")}
 				</Checkbox>
 				<div className="text-sm text-vscode-descriptionForeground ml-6">
-					{t("settings:openAiOmitToolChoiceDescription")}
-				</div>
-			</div>
-			<div>
-				<Checkbox
-					checked={apiConfiguration?.openAiDisableTools ?? false}
-					onChange={handleInputChange("openAiDisableTools", noTransform)}>
-					{t("settings:openAiDisableTools")}
-				</Checkbox>
-				<div className="text-sm text-vscode-descriptionForeground ml-6">
-					{t("settings:openAiDisableToolsDescription")}
+					{t("settings:openAiDisableToolChoiceDescription")}
 				</div>
 			</div>
 			<Checkbox

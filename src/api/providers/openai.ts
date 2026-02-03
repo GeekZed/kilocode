@@ -89,8 +89,7 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 		const modelUrl = this.options.openAiBaseUrl ?? ""
 		const modelId = this.options.openAiModelId ?? ""
 		const enabledR1Format = this.options.openAiR1FormatEnabled ?? false
-		const omitToolChoice = this.options.openAiOmitToolChoice ?? false
-		const disableTools = this.options.openAiDisableTools ?? false
+		const disableToolChoice = this.options.openAiDisableToolChoice ?? false
 		const isAzureAiInference = this._isAzureAiInference(modelUrl)
 		const deepseekReasoner = modelId.includes("deepseek-reasoner") || enabledR1Format
 		// kilocode_change removed const ark = modelUrl.includes(".volces.com")
@@ -163,8 +162,8 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 				stream: true as const,
 				...(isGrokXAI ? {} : { stream_options: { include_usage: true } }),
 				...(reasoning && reasoning),
-				...(metadata?.tools && !disableTools && { tools: this.convertToolsForOpenAI(metadata.tools) }),
-				...(!omitToolChoice && !disableTools && metadata?.tool_choice && { tool_choice: metadata.tool_choice }),
+				...(metadata?.tools && { tools: this.convertToolsForOpenAI(metadata.tools) }),
+				...(!disableToolChoice && metadata?.tool_choice && { tool_choice: metadata.tool_choice }),
 				...(metadata?.toolProtocol === "native" &&
 					metadata.parallelToolCalls === true && {
 						parallel_tool_calls: true,
@@ -242,7 +241,7 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 					? convertToR1Format([{ role: "user", content: systemPrompt }, ...messages])
 					: [systemMessage, ...convertToOpenAiMessages(messages)],
 				...(metadata?.tools && { tools: this.convertToolsForOpenAI(metadata.tools) }),
-				...(!omitToolChoice && metadata?.tool_choice && { tool_choice: metadata.tool_choice }),
+				...(!disableToolChoice && metadata?.tool_choice && { tool_choice: metadata.tool_choice }),
 				...(metadata?.toolProtocol === "native" &&
 					metadata.parallelToolCalls === true && {
 						parallel_tool_calls: true,
@@ -366,7 +365,7 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 		metadata?: ApiHandlerCreateMessageMetadata,
 	): ApiStream {
 		const modelInfo = this.getModel().info
-		const omitToolChoice = this.options.openAiOmitToolChoice ?? false
+		const disableToolChoice = this.options.openAiDisableToolChoice ?? false
 		const methodIsAzureAiInference = this._isAzureAiInference(this.options.openAiBaseUrl)
 
 		if (this.options.openAiStreamingEnabled ?? true) {
@@ -386,7 +385,7 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 				reasoning_effort: modelInfo.reasoningEffort as "low" | "medium" | "high" | undefined,
 				temperature: undefined,
 				...(metadata?.tools && { tools: this.convertToolsForOpenAI(metadata.tools) }),
-				...(!omitToolChoice && metadata?.tool_choice && { tool_choice: metadata.tool_choice }),
+				...(!disableToolChoice && metadata?.tool_choice && { tool_choice: metadata.tool_choice }),
 				...(metadata?.toolProtocol === "native" &&
 					metadata.parallelToolCalls === true && {
 						parallel_tool_calls: true,
@@ -422,7 +421,7 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 				reasoning_effort: modelInfo.reasoningEffort as "low" | "medium" | "high" | undefined,
 				temperature: undefined,
 				...(metadata?.tools && { tools: this.convertToolsForOpenAI(metadata.tools) }),
-				...(!omitToolChoice && metadata?.tool_choice && { tool_choice: metadata.tool_choice }),
+				...(!disableToolChoice && metadata?.tool_choice && { tool_choice: metadata.tool_choice }),
 				...(metadata?.toolProtocol === "native" &&
 					metadata.parallelToolCalls === true && {
 						parallel_tool_calls: true,
