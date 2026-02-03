@@ -3,6 +3,10 @@
 		"name": "Kilo Code",
 		"description": "Open Source AI coding agent that generates code from natural language, automates tasks, and runs terminal commands. Features inline autocomplete, browser automation, automated refactoring, and custom modes for planning, coding, and debugging. Supports 500+ AI models including Claude (Anthropic), Gemini, Grok, GPT, Codex and GLM."
 	},
+	"settings": {
+		"openAiOmitToolChoice": "Omit tool_choice",
+		"openAiOmitToolChoiceDescription": "If enabled, the `tool_choice` parameter will not be sent in API requests. This is useful for some Azure/LiteLLM providers that do not support it."
+	},
 	"number_format": {
 		"thousand_suffix": "k",
 		"million_suffix": "m",

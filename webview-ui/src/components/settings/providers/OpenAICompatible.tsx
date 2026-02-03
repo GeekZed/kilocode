@@ -168,6 +168,16 @@ export const OpenAICompatible = ({
 					{t("settings:includeMaxOutputTokensDescription")}
 				</div>
 			</div>
+			<div>
+				<Checkbox
+					checked={apiConfiguration?.openAiOmitToolChoice ?? false}
+					onChange={handleInputChange("openAiOmitToolChoice", noTransform)}>
+					{t("settings:openAiOmitToolChoice")}
+				</Checkbox>
+				<div className="text-sm text-vscode-descriptionForeground ml-6">
+					{t("settings:openAiOmitToolChoiceDescription")}
+				</div>
+			</div>
 			<Checkbox
 				checked={apiConfiguration?.openAiUseAzure ?? false}
 				onChange={handleInputChange("openAiUseAzure", noTransform)}>
