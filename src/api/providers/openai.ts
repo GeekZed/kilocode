@@ -90,6 +90,7 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 		const modelId = this.options.openAiModelId ?? ""
 		const enabledR1Format = this.options.openAiR1FormatEnabled ?? false
 		const omitToolChoice = this.options.openAiOmitToolChoice ?? false
+		const disableTools = this.options.openAiDisableTools ?? false
 		const isAzureAiInference = this._isAzureAiInference(modelUrl)
 		const deepseekReasoner = modelId.includes("deepseek-reasoner") || enabledR1Format
 		// kilocode_change removed const ark = modelUrl.includes(".volces.com")
@@ -162,8 +163,8 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 				stream: true as const,
 				...(isGrokXAI ? {} : { stream_options: { include_usage: true } }),
 				...(reasoning && reasoning),
-				...(metadata?.tools && { tools: this.convertToolsForOpenAI(metadata.tools) }),
-				...(!omitToolChoice && metadata?.tool_choice && { tool_choice: metadata.tool_choice }),
+				...(metadata?.tools && !disableTools && { tools: this.convertToolsForOpenAI(metadata.tools) }),
+				...(!omitToolChoice && !disableTools && metadata?.tool_choice && { tool_choice: metadata.tool_choice }),
 				...(metadata?.toolProtocol === "native" &&
 					metadata.parallelToolCalls === true && {
 						parallel_tool_calls: true,

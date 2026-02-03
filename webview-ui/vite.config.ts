@@ -97,7 +97,7 @@ export default defineConfig(({ mode }) => {
 		tailwindcss(),
 		persistPortPlugin(),
 		wasmPlugin(),
-		sourcemapPlugin(),
+		...(mode === "production" ? [] : [sourcemapPlugin()]),
 		cssPerEntryPlugin(), // kilocode_change: enable per-entry CSS files
 	]
 
