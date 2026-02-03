@@ -161,12 +161,9 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 				stream: true as const,
 				...(isGrokXAI ? {} : { stream_options: { include_usage: true } }),
 				...(reasoning && reasoning),
-				...(metadata?.tools && { tools: this.convertToolsForOpenAI(metadata.tools) }),
+				...(metadata?.tools &&
+					metadata.tools.length > 0 && { tools: this.convertToolsForOpenAI(metadata.tools) }),
 				...(metadata?.tool_choice && { tool_choice: metadata.tool_choice }),
-				...(metadata?.toolProtocol === "native" &&
-					metadata.parallelToolCalls === true && {
-						parallel_tool_calls: true,
-					}),
 			}
 
 			// Add max_tokens if needed
@@ -239,12 +236,9 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 				messages: deepseekReasoner
 					? convertToR1Format([{ role: "user", content: systemPrompt }, ...messages])
 					: [systemMessage, ...convertToOpenAiMessages(messages)],
-				...(metadata?.tools && { tools: this.convertToolsForOpenAI(metadata.tools) }),
+				...(metadata?.tools &&
+					metadata.tools.length > 0 && { tools: this.convertToolsForOpenAI(metadata.tools) }),
 				...(metadata?.tool_choice && { tool_choice: metadata.tool_choice }),
-				...(metadata?.toolProtocol === "native" &&
-					metadata.parallelToolCalls === true && {
-						parallel_tool_calls: true,
-					}),
 			}
 
 			// Add max_tokens if needed
@@ -382,12 +376,9 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 				...(isGrokXAI ? {} : { stream_options: { include_usage: true } }),
 				reasoning_effort: modelInfo.reasoningEffort as "low" | "medium" | "high" | undefined,
 				temperature: undefined,
-				...(metadata?.tools && { tools: this.convertToolsForOpenAI(metadata.tools) }),
+				...(metadata?.tools &&
+					metadata.tools.length > 0 && { tools: this.convertToolsForOpenAI(metadata.tools) }),
 				...(metadata?.tool_choice && { tool_choice: metadata.tool_choice }),
-				...(metadata?.toolProtocol === "native" &&
-					metadata.parallelToolCalls === true && {
-						parallel_tool_calls: true,
-					}),
 			}
 
 			// O3 family models do not support the deprecated max_tokens parameter
@@ -418,12 +409,9 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 				],
 				reasoning_effort: modelInfo.reasoningEffort as "low" | "medium" | "high" | undefined,
 				temperature: undefined,
-				...(metadata?.tools && { tools: this.convertToolsForOpenAI(metadata.tools) }),
+				...(metadata?.tools &&
+					metadata.tools.length > 0 && { tools: this.convertToolsForOpenAI(metadata.tools) }),
 				...(metadata?.tool_choice && { tool_choice: metadata.tool_choice }),
-				...(metadata?.toolProtocol === "native" &&
-					metadata.parallelToolCalls === true && {
-						parallel_tool_calls: true,
-					}),
 			}
 
 			// O3 family models do not support the deprecated max_tokens parameter
