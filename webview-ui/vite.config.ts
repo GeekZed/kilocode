@@ -115,7 +115,7 @@ export default defineConfig(({ mode }) => {
 			emptyOutDir: true,
 			reportCompressedSize: false,
 			// Generate complete source maps with original TypeScript sources
-			sourcemap: true,
+			sourcemap: mode !== "production", // kilocode_change: Only generate source maps for development
 			// Ensure source maps are properly included in the build
 			minify: mode === "production" ? "esbuild" : false,
 			// Use a single combined CSS bundle so both webviews share styles
